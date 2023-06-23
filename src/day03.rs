@@ -48,6 +48,23 @@ mod day03 {
         result as u64
     }
 
+    //-------------------------------------------------------//
+    /**
+     * Problem 6 - Sum square difference
+     */
+    fn sum_square_difference(number: u32) -> u64 {
+        let mut sum_of_square = 0;
+        let mut square_of_sum = 0;
+        for i in 1..=number {
+            sum_of_square += i * i;
+            square_of_sum += i;
+        }
+        square_of_sum *= square_of_sum;
+
+        (square_of_sum - sum_of_square) as u64
+    }
+
+
     #[test]
     fn problem05_test() {
         assert_eq!(smallest_mult(5),60);
@@ -55,5 +72,12 @@ mod day03 {
         assert_eq!(smallest_mult(10),2520);
         assert_eq!(smallest_mult(13),360360);
         assert_eq!(smallest_mult(20),232792560);
+    }
+
+    #[test]
+    fn problem06_test() {
+        assert_eq!(sum_square_difference(10), 2640);
+        assert_eq!(sum_square_difference(20), 41230);
+        assert_eq!(sum_square_difference(100), 25164150);
     }
 }
