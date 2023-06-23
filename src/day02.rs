@@ -36,15 +36,31 @@ mod day02 {
     /**
      * Problem 4 - Largest palindrome product
      */
-    fn largest_palindrome_product(number : i32) -> i32 {
-        let max = 10_u64.pow(number as u32);
-        let min = max - 10_u64.pow(((number + 1) >> 1) as u32);
-        fn compare(number1: u64, number2: u64) {
-            
-        }
-       
 
-        1 as i32
+    fn largest_palindrome_product(number : i32) -> i32 {
+        if number == 1 {return 9}
+
+        let max: u64 = 10_u64.pow(number as u32) - 1;
+        let min = max - 10_u64.pow(((number + 1) >> 1) as u32);
+        
+        for i in (min..max).rev() {
+            let i_string = i.to_string().to_owned();
+            let reverse_string = reverse_string(i.to_string().as_str());
+            let palindrome: u64 = (i_string + reverse_string.as_str()).parse().unwrap();
+
+            let mut j = max;
+            while j*j >= palindrome {
+                if palindrome % j == 0 {
+                    return (palindrome % 1337) as i32;
+                }
+                j -= 1;
+            }
+        }
+        9
+    }
+
+    fn reverse_string(input: &str) -> String {
+        input.chars().rev().collect()
     }
 
     #[test]
@@ -58,6 +74,13 @@ mod day02 {
 
     #[test]
     fn problem04_test() {
-        assert_eq!(largest_palindrome_product(4), 1);
+        assert_eq!(largest_palindrome_product(2), 987);
+        assert_eq!(largest_palindrome_product(1), 9);
+        assert_eq!(largest_palindrome_product(3), 123);
+        assert_eq!(largest_palindrome_product(4), 597);
+        assert_eq!(largest_palindrome_product(5), 677);
+        assert_eq!(largest_palindrome_product(6), 1218);
+        assert_eq!(largest_palindrome_product(7), 877);
+        assert_eq!(largest_palindrome_product(8), 475);
     }
 }
