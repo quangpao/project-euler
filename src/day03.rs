@@ -64,6 +64,31 @@ mod day03 {
         (square_of_sum - sum_of_square) as u64
     }
 
+    //-------------------------------------------------------//
+    /**
+     * Problem 7 - 10001st prime
+     */
+    fn nth_prime(number: u32) -> u64 {
+        let mut count = 0;
+        let mut current = 2;
+        let mut prime_arr: Vec<u64> = Vec::new();
+        while count < number {
+            let mut is_prime = true;
+            for i in 0..prime_arr.len() {
+                if current % prime_arr.get(i).unwrap() == 0 {
+                    is_prime = false;
+                    break;
+                }
+            }
+            if is_prime {
+                count += 1;
+                prime_arr.push(current);
+            }
+            current += 1;
+        }
+        (current - 1) as u64
+
+    }
 
     #[test]
     fn problem05_test() {
@@ -79,5 +104,14 @@ mod day03 {
         assert_eq!(sum_square_difference(10), 2640);
         assert_eq!(sum_square_difference(20), 41230);
         assert_eq!(sum_square_difference(100), 25164150);
+    }
+
+    #[test]
+    fn problem07_test() {
+        assert_eq!(nth_prime(6), 13);
+        assert_eq!(nth_prime(10), 29);
+        assert_eq!(nth_prime(100), 541);
+        assert_eq!(nth_prime(1000), 7919);
+        assert_eq!(nth_prime(10001), 104743);
     }
 }
