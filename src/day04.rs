@@ -1,7 +1,5 @@
 #[cfg(test)]
 mod day04 {
-    use std::collections::HashMap;
-
 
     /**
      * Problem 8 - Largest product in a series
@@ -31,10 +29,37 @@ mod day04 {
         max
     }
 
+    /**
+     * Problem 9 - Special Pythagorean triplet
+     */
+    fn special_pythagorean_triplet(number: u32) -> u64 {
+        let mut c = 0;
+        let mut p = 2;
+        while c < number {
+            for q in 1..p {
+                let a = p*p - q*q;
+                let b = 2*p*q;
+                c = p*p + q*q;
+
+                if c > number {break}
+                if a + b + c == number {return (a*b*c) as u64}
+            }
+            p += 1;
+        }
+        return 0;
+    }
+
 
     #[test]
     fn problem08_test() {
         assert_eq!(largest_productina_series(4), 5832);
         assert_eq!(largest_productina_series(13), 23514624000);
+    }
+
+    #[test]
+    fn problem09_test() {
+        assert_eq!(special_pythagorean_triplet(24), 480);
+        assert_eq!(special_pythagorean_triplet(120), 49920);
+        assert_eq!(special_pythagorean_triplet(1000), 31875000);
     }
 }
