@@ -48,11 +48,11 @@ mod day06 {
             result_arr[length - 1] = result_arr[length - 1] % 10; 
         }
         let mut result: u64 = 0;
-        for i in ((result_arr.len() - 11)..(result_arr.len())).rev() {
+        for i in ((result_arr.len() - 10)..(result_arr.len())).rev() {
             result += result_arr[i] as u64;
             result *= 10;
         }
-        result /= 100;
+        result /= 10;
         result as u64
     }
 
