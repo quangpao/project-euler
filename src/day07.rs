@@ -41,6 +41,46 @@ mod day07 {
         result
     }
 
+    /**
+     * Problem 15 - Lattice paths
+     */
+    fn lattice_paths(grid_size: u64) -> u64 {
+        let actually_size = (grid_size + 1) as usize;
+        let mut vec: Vec<u64> = vec![0; actually_size * actually_size + 1];
+        for i in 1..=actually_size {
+            vec[i] = 1;
+            vec[(i - 1) * actually_size + 1] = 1
+        }
+        for i in 2..=actually_size {
+            for j in 2..=actually_size {
+                vec[(i - 1) * actually_size + j] = vec[(i - 1) * actually_size + j - 1] + vec[(i - 2) * actually_size + j];
+            }
+        }
+        *vec.get(actually_size * actually_size).unwrap()
+    }
+
+    /**
+     * LeetCode 62 - Unique Paths (Similar to Problem 15)
+     * https://leetcode.com/problems/unique-paths/
+     */
+    pub fn unique_paths(m: i32, n: i32) -> i32 {
+        let m: usize = m as usize;
+        let n: usize = n as usize;
+        let mut vec: Vec<u64> = vec![0; m * n + 1];
+        for i in 1..=n {
+            vec[i] = 1;
+        }
+        for i in 1..=m {
+            vec[(i - 1) * n + 1] = 1;
+        }
+        for i in 2..=m {
+            for j in 2..=n {
+                vec[(i - 1) * n + j] = vec[(i - 1) * n + j - 1] + vec[(i - 2) * n + j];
+            }
+        }
+        *vec.get(m * n).unwrap() as i32
+    }
+
     #[test]
     fn problem14_test() {
         let start = Instant::now();
@@ -56,6 +96,30 @@ mod day07 {
         println!("{}.{:03} seconds elapsed.", start.elapsed().as_secs(), start.elapsed().subsec_millis());
         assert_eq!(longest_collatz_sequence(1000000), 837799);
         println!("{}.{:03} seconds elapsed.", start.elapsed().as_secs(), start.elapsed().subsec_millis());
+    }
+
+    #[test]
+    fn problem15_test() {
+        let start = Instant::now();
+        assert_eq!(lattice_paths(4), 70);
+        println!("{}.{:03} seconds elapsed.", start.elapsed().as_secs(), start.elapsed().subsec_millis());
+        assert_eq!(lattice_paths(9), 48620);
+        println!("{}.{:03} seconds elapsed.", start.elapsed().as_secs(), start.elapsed().subsec_millis());
+        assert_eq!(lattice_paths(20), 137846528820);
+        println!("{}.{:03} seconds elapsed.", start.elapsed().as_secs(), start.elapsed().subsec_millis());
+        assert_eq!(lattice_paths(14), 40116600);
+        println!("{}.{:03} seconds elapsed.", start.elapsed().as_secs(), start.elapsed().subsec_millis());
+
+        assert_eq!(unique_paths(3, 2), 3);
+        println!("{}.{:03} seconds elapsed.", start.elapsed().as_secs(), start.elapsed().subsec_millis());
+        assert_eq!(unique_paths(7, 3), 28);
+        println!("{}.{:03} seconds elapsed.", start.elapsed().as_secs(), start.elapsed().subsec_millis());
+        assert_eq!(unique_paths(23, 12), 193536720);
+        println!("{}.{:03} seconds elapsed.", start.elapsed().as_secs(), start.elapsed().subsec_millis());
+        assert_eq!(unique_paths(51, 9), 1916797311);
+        println!("{}.{:03} seconds elapsed.", start.elapsed().as_secs(), start.elapsed().subsec_millis());
+
+
     }
 
 }
