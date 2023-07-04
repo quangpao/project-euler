@@ -64,21 +64,23 @@ mod day07 {
      * https://leetcode.com/problems/unique-paths/
      */
     pub fn unique_paths(m: i32, n: i32) -> i32 {
+        if m == 0 || n == 0 {
+            return 0;
+        }
+        
         let m: usize = m as usize;
         let n: usize = n as usize;
-        let mut vec: Vec<u64> = vec![0; m * n + 1];
-        for i in 1..=n {
-            vec[i] = 1;
-        }
-        for i in 1..=m {
-            vec[(i - 1) * n + 1] = 1;
-        }
-        for i in 2..=m {
-            for j in 2..=n {
-                vec[(i - 1) * n + j] = vec[(i - 1) * n + j - 1] + vec[(i - 2) * n + j];
+        let mut vec: Vec<Vec<i32>> = vec![vec![0; n]; m];
+        for i in 0..m {
+            for j in 0..n {
+                if i == 0 || j == 0 {
+                    vec[i][j] = 1;
+                } else {
+                    vec[i][j] = vec[i - 1][j] + vec[i][j - 1];
+                }
             }
         }
-        *vec.get(m * n).unwrap() as i32
+        vec[m - 1][n - 1]
     }
 
     #[test]
@@ -118,7 +120,8 @@ mod day07 {
         println!("{}.{:03} seconds elapsed.", start.elapsed().as_secs(), start.elapsed().subsec_millis());
         assert_eq!(unique_paths(51, 9), 1916797311);
         println!("{}.{:03} seconds elapsed.", start.elapsed().as_secs(), start.elapsed().subsec_millis());
-
+        assert_eq!(unique_paths(0, 0), 0);
+        println!("{}.{:03} seconds elapsed.", start.elapsed().as_secs(), start.elapsed().subsec_millis());
 
     }
 
